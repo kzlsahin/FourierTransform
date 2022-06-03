@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <title>Fourier Graphs</title>
+    <meta name="author" content="Mustafa ŞENTÜRK">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1905050">
+    <meta charset="UTF-8" />
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <script src="js/chart.js"></script>
+    <script src="js/dataHandler.v.1.9.js"></script>
+
+
+</head>
+
+<body>
+    <canvas id="fourierGraph" width="700" height="500"></canvas>
+    <text id="inp" contenteditable="true"
+        style="display:inline-block;width:50%;min-width:450px;min-height:250px;background-color: beige;">
+        (x)=>{
+        let res = 0;
+        for(n = 1; n < 15; n++){ res +=Math.sin((2*n-1)*x)/(2*n-1); } return res; } </text>
+            <div id="controls" style="display:inline-block;width:40%">
+                <button onclick="updateGraph()"
+                    style="display:block;background-color: chartreuse;padding: 1em; cursor: pointer;">Update graph</button>
+                <label for="xSpace"">X space = <span id="x-space" contenteditable="true"
+                        onchange="xSpaceChange()">0.001</span></label>
+                <input id="xSpace" name="xSpace" type="range" min="0.001" max="0.1" step="0.0001" value="0.001"
+                    style="display:block;width:40%;" onchange="updateGraph()">
+                <label for="xrange"">X range = 
+                    <span id="x-range1" contenteditable="true" onchange="xRangeChange()"></span>
+                    <span id="x-range2" contenteditable="true" onchange="xRangeChange()"></span></label>
+                <input id="xrange" name="xrange" type="range" min="0.001" max="0.1" step="0.0001" value="0.001"
+                    style="display:block;width:40%;" onchange="updateGraph()">
+            </div>
+
+            <script>
+                let xSpace = document.getElementById("xSpace").value;
+                document.getElementById("x-space").innerText = xSpace;
+                let funcInp = eval(document.getElementById("inp").innerText);
+                drawFourierGraph(funcInp, "fourierGraph", xSpace = xSpace);
+
+                const xSpaceChange = () => {
+                    console.log("xspace changed");
+                    let val = Numeber(evt.target.innerText);
+                    if (val) {
+                        document.getElementById("xSpace").value = val;
+                        setTimeout(updateGraph, 150);
+                    }
+                };
+
+                const xRangeChange = () => {
+                };
+
+                const updateGraph = () => {
+                    let xSpace = document.getElementById("xSpace").value;
+                    document.getElementById("x-space").innerText = xSpace;
+                    funcInp = eval(document.getElementById("inp").innerText);
+                    drawFourierGraph(funcInp, "fourierGraph", xSpace = xSpace, xRange = xRange);
+                };
+            </script>
+</body>
+
+</html>
